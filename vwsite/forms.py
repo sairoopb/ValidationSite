@@ -18,6 +18,17 @@ class UserForm(forms.ModelForm):
             raise ValidationError("Invalid")
         return data
 
+class PasswordForm(forms.Form):
+    new_password = forms.CharField(label='Type new password',max_length=50,widget=forms.PasswordInput())
+    r_new_password = forms.CharField(label='Retype new password',max_length=50,widget=forms.PasswordInput())
+
+    def clean(self):
+        data = self.cleaned_data
+        # print(data)
+        if not data["new_password"] == data["r_new_password"]:
+            raise ValidationError("Passwords do not match")
+        return data
+
 
 # def clean_email(self):
 #     email = self.cleaned_data['email']
